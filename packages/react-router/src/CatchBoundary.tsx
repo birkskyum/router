@@ -47,7 +47,7 @@ class CatchBoundaryImpl extends React.Component<{
     this.setState({ error: null })
   }
   componentDidUpdate(
-    prevProps: Readonly<{
+    _prevProps: Readonly<{
       getResetKey: () => string
       children: (props: { error: any; reset: () => void }) => any
       onCatch?: ((error: any, info: any) => void) | undefined

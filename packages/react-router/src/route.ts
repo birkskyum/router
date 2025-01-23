@@ -800,7 +800,6 @@ export class Route<
   init = (opts: { originalIndex: number; defaultSsr?: boolean }): void => {
     this.originalIndex = opts.originalIndex
 
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
     const options = this.options as
       | (RouteOptions<
           TParentRoute,

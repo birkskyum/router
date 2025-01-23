@@ -1623,7 +1623,7 @@ export class Router<
                 }) ?? {}),
               }
             }
-          } catch (e) {
+          } catch (_e) {
             // ignore errors here because they are already handled in matchRoutes
           }
         })
@@ -1685,7 +1685,7 @@ export class Router<
                       ) ?? {}),
                     }
                     return validatedSearch
-                  } catch (e) {
+                  } catch (_e) {
                     // ignore errors here because they are already handled in matchRoutes
                   }
                 }
