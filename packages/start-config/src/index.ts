@@ -121,18 +121,19 @@ export function defineConfig(
     client: {
       getRuntimeCode: () =>
         `import { createClientRpc } from '@tanstack/start/server-functions-client'`,
-      replacer: (opts) => `createClientRpc(${JSON.stringify(opts.functionId)})`,
+      replacer: (opts) =>
+        `createClientRpc('${opts.functionId}', '${serverBase}')`,
     },
     ssr: {
       getRuntimeCode: () =>
         `import { createSsrRpc } from '@tanstack/start/server-functions-ssr'`,
-      replacer: (opts) => `createSsrRpc(${JSON.stringify(opts.functionId)})`,
+      replacer: (opts) => `createSsrRpc('${opts.functionId}', '${serverBase}')`,
     },
     server: {
       getRuntimeCode: () =>
         `import { createServerRpc } from '@tanstack/start/server-functions-server'`,
       replacer: (opts) =>
-        `createServerRpc(${JSON.stringify(opts.functionId)}, ${opts.fn})`,
+        `createServerRpc('${opts.functionId}', '${serverBase}', ${opts.fn})`,
     },
   })
 
@@ -178,19 +179,12 @@ export function defineConfig(
                 ...injectDefineEnv('TSS_PUBLIC_BASE', publicBase),
                 ...injectDefineEnv('TSS_CLIENT_BASE', clientBase),
                 ...injectDefineEnv('TSS_API_BASE', apiBase),
-                ...injectDefineEnv('TSS_SERVER_FN_BASE', serverBase),
               },
               ssr: mergeSsrOptions([
                 viteConfig.userConfig.ssr,
                 clientViteConfig.userConfig.ssr,
                 {
-                  noExternal: [
-                    '@tanstack/start',
-                    '@tanstack/start-router-manifest',
-                    '@tanstack/start-server-functions-handler',
-                    'tsr:routes-manifest',
-                    'tsr:server-fn-manifest',
-                  ],
+                  noExternal,
                 },
               ]),
               optimizeDeps: {
@@ -245,19 +239,12 @@ export function defineConfig(
                 ...injectDefineEnv('TSS_PUBLIC_BASE', publicBase),
                 ...injectDefineEnv('TSS_CLIENT_BASE', clientBase),
                 ...injectDefineEnv('TSS_API_BASE', apiBase),
-                ...injectDefineEnv('TSS_SERVER_FN_BASE', serverBase),
               },
               ssr: mergeSsrOptions([
                 viteConfig.userConfig.ssr,
                 ssrViteConfig.userConfig.ssr,
                 {
-                  noExternal: [
-                    '@tanstack/start',
-                    '@tanstack/start-router-manifest',
-                    '@tanstack/start-server-functions-handler',
-                    'tsr:routes-manifest',
-                    'tsr:server-fn-manifest',
-                  ],
+                  noExternal,
                   external: ['@vinxi/react-server-dom/client'],
                 },
               ]),
@@ -321,13 +308,7 @@ export function defineConfig(
                 viteConfig.userConfig.ssr,
                 serverViteConfig.userConfig.ssr,
                 {
-                  noExternal: [
-                    '@tanstack/start',
-                    '@tanstack/start-router-manifest',
-                    '@tanstack/start-server-functions-handler',
-                    'tsr:routes-manifest',
-                    'tsr:server-fn-manifest',
-                  ],
+                  noExternal,
                 },
               ]),
               optimizeDeps: {
@@ -373,6 +354,23 @@ export function defineConfig(
     ],
   })
 
+  const noExternal = [
+    '@tanstack/start',
+    '@tanstack/start-client',
+    '@tanstack/start-server',
+    '@tanstack/start-server-functions-fetcher',
+    '@tanstack/start-server-functions-handler',
+    '@tanstack/start-server-functions-client',
+    '@tanstack/start-server-functions-ssr',
+    '@tanstack/start-server-functions-server',
+    '@tanstack/start-router-manifest',
+    '@tanstack/start-config',
+    '@tanstack/start-api-routes',
+    '@tanstack/server-functions-plugin',
+    'tsr:routes-manifest',
+    'tsr:server-fn-manifest',
+  ]
+
   // If API routes handler exists, add a router for it
   if (apiEntryExists) {
     vinxiApp = vinxiApp.addRouter({
@@ -395,13 +393,7 @@ export function defineConfig(
               viteConfig.userConfig.ssr,
               apiViteConfig.userConfig.ssr,
               {
-                noExternal: [
-                  '@tanstack/start',
-                  '@tanstack/start-router-manifest',
-                  '@tanstack/start-server-functions-handler',
-                  'tsr:routes-manifest',
-                  'tsr:server-fn-manifest',
-                ],
+                noExternal,
               },
             ]),
             optimizeDeps: {
@@ -415,7 +407,6 @@ export function defineConfig(
               ...injectDefineEnv('TSS_PUBLIC_BASE', publicBase),
               ...injectDefineEnv('TSS_CLIENT_BASE', clientBase),
               ...injectDefineEnv('TSS_API_BASE', apiBase),
-              ...injectDefineEnv('TSS_SERVER_FN_BASE', serverBase),
             },
           }),
           TanStackRouterVite({
