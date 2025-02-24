@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { Link, Outlet, createLazyRoute } from '@tanstack/solid-router'
 import { createQuery } from '@tanstack/solid-query'
 import { postsQueryOptions } from './posts'
