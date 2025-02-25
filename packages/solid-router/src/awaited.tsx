@@ -30,11 +30,13 @@ export function Await<T>(
     children: (result: T) => SolidNode
   },
 ) {
-  const inner = <AwaitInner {...props} />
-  if (props.fallback) {
-    return <Solid.Suspense fallback={props.fallback}>{inner}</Solid.Suspense>
-  }
-  return inner
+  const [resource] = Solid.createResource(() => props.promise)
+
+  return (
+    <Solid.Show fallback={props.fallback} when={resource()}>
+      {(data) => props.children(data())}
+    </Solid.Show>
+  )
 }
 
 function AwaitInner<T>(
