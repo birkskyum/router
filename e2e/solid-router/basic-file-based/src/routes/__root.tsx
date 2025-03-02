@@ -5,6 +5,7 @@ import {
   createRootRoute,
   useCanGoBack,
   useRouter,
+  useRouterState,
 } from '@tanstack/solid-router'
 // // import { TanStackRouterDevtools } from '@tanstack/router-devtools'
 
@@ -23,6 +24,11 @@ export const Route = createRootRoute({
 function RootComponent() {
   const router = useRouter()
   const canGoBack = useCanGoBack()
+
+  console.log('router', router)
+  const routerState = useRouterState()
+  console.log('routerState', routerState)
+
 
   return (
     <>
