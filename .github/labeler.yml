@@ -12,6 +12,8 @@
   - 'packages/history/**/*'
 'package: react-router':
   - 'packages/react-router/**/*'
+'package: react-router-devtools':
+  - 'packages/react-router-devtools/**/*'
 'package: react-router-with-query':
   - 'packages/react-router-with-query/**/*'
 'package: react-start':
@@ -36,6 +38,8 @@
   - 'packages/router-core/**/*'
 'package: router-devtools':
   - 'packages/router-devtools/**/*'
+'package: router-devtools-core':
+  - 'packages/router-devtools-core/**/*'
 'package: router-generator':
   - 'packages/router-generator/**/*'
 'package: router-plugin':
@@ -48,6 +52,8 @@
   - 'packages/server-functions-plugin/**/*'
 'package: solid-router':
   - 'packages/solid-router/**/*'
+'package: solid-router-devtools':
+  - 'packages/solid-router-devtools/**/*'
 'package: solid-start':
   - 'packages/solid-start/**/*'
 'package: solid-start-api-routes':
