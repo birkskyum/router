@@ -62,14 +62,14 @@
         "default": "./dist/cjs/server.cjs"
       }
     },
-    "./config": {
+    "./plugin": {
       "import": {
-        "types": "./dist/esm/config.d.ts",
-        "default": "./dist/esm/config.js"
+        "types": "./dist/esm/plugin.d.ts",
+        "default": "./dist/esm/plugin.js"
       },
       "require": {
-        "types": "./dist/cjs/config.d.cts",
-        "default": "./dist/cjs/config.cjs"
+        "types": "./dist/cjs/plugin.d.cts",
+        "default": "./dist/cjs/plugin.cjs"
       }
     },
     "./api": {
@@ -80,16 +80,6 @@
       "require": {
         "types": "./dist/cjs/api.d.cts",
         "default": "./dist/cjs/api.cjs"
-      }
-    },
-    "./router-manifest": {
-      "import": {
-        "types": "./dist/esm/router-manifest.d.ts",
-        "default": "./dist/esm/router-manifest.js"
-      },
-      "require": {
-        "types": "./dist/cjs/router-manifest.d.cts",
-        "default": "./dist/cjs/router-manifest.cjs"
       }
     },
     "./server-functions-client": {
@@ -110,16 +100,6 @@
       "require": {
         "types": "./dist/cjs/server-functions-server.d.cts",
         "default": "./dist/cjs/server-functions-server.cjs"
-      }
-    },
-    "./server-functions-handler": {
-      "import": {
-        "types": "./dist/esm/server-functions-handler.d.ts",
-        "default": "./dist/esm/server-functions-handler.js"
-      },
-      "require": {
-        "types": "./dist/cjs/server-functions-handler.d.cts",
-        "default": "./dist/cjs/server-functions-handler.cjs"
       }
     },
     "./server-functions-ssr": {
@@ -145,11 +125,9 @@
   "dependencies": {
     "@tanstack/react-start-client": "workspace:^",
     "@tanstack/react-start-server": "workspace:^",
-    "@tanstack/react-start-config": "workspace:^",
-    "@tanstack/react-start-router-manifest": "workspace:^",
+    "@tanstack/react-start-plugin": "workspace:^",
     "@tanstack/react-start-server-functions-client": "workspace:^",
     "@tanstack/start-server-functions-server": "workspace:^",
-    "@tanstack/react-start-server-functions-handler": "workspace:^",
     "@tanstack/react-start-server-functions-ssr": "workspace:^",
     "@tanstack/react-start-api-routes": "workspace:^"
   },
