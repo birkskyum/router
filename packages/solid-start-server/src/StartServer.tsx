@@ -150,7 +150,7 @@ export function ServerHeadContent(props: { router?: AnyRouter, skipStylesheets?:
     children: `
       /* Prevent FOUC */
       body:not(.css-loaded) { opacity: 0 !important; }
-      body.css-loaded { opacity: 1 !important; transition: opacity 0.2s ease-in; }
+      body.css-loaded { opacity: 1 !important; }
     `
   } : null;
   
@@ -253,9 +253,9 @@ export function StartServer<TRouter extends AnyRouter>(props: {
           document.documentElement.classList.add('css-loaded');
         }
         
-        // Add the FOUC prevention style
+        // Add the FOUC prevention style (without transition)
         var style = document.createElement('style');
-        style.textContent = 'html:not(.css-loaded){opacity:0!important}html.css-loaded{opacity:1!important;transition:opacity 0.2s ease-in}';
+        style.textContent = 'html:not(.css-loaded){opacity:0!important}html.css-loaded{opacity:1!important}';
         document.head.insertBefore(style, document.head.firstChild);
         
         // Load all stylesheets immediately
