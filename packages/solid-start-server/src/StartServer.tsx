@@ -1,4 +1,3 @@
-// Import from solid-router in alphabetical order
 import { Asset, RouterProvider, Scripts, getTagsFromState, useTags } from '@tanstack/solid-router'
 import * as Solid from 'solid-js'
 import {
@@ -237,13 +236,20 @@ export function StartServer<TRouter extends AnyRouter>(props: {
         // CSS URLs detected during SSR
         var cssUrls = ${JSON.stringify(cssUrls)};
         
+        // Add a global record of loaded stylesheets
+        window.__LOADED_STYLESHEETS__ = window.__LOADED_STYLESHEETS__ || new Set();
+        
         // Function to load a stylesheet with high priority
         function loadStylesheet(url) {
+          // Mark this URL as loaded in our global registry
+          window.__LOADED_STYLESHEETS__.add(url);
+          
           var link = document.createElement('link');
           link.rel = 'stylesheet';
           link.href = url;
           link.setAttribute('fetchpriority', 'high');
           link.setAttribute('importance', 'high');
+          link.setAttribute('data-critical-css', 'true');
           document.head.insertBefore(link, document.head.firstChild);
           return link;
         }
@@ -257,6 +263,51 @@ export function StartServer<TRouter extends AnyRouter>(props: {
         var style = document.createElement('style');
         style.textContent = 'html:not(.css-loaded){opacity:0!important}html.css-loaded{opacity:1!important}';
         document.head.insertBefore(style, document.head.firstChild);
+        
+        // Track stylesheets that are already in the document
+        function recordExistingStylesheets() {
+          var links = document.querySelectorAll('link[rel="stylesheet"]');
+          for (var i = 0; i < links.length; i++) {
+            var href = links[i].getAttribute('href');
+            if (href) {
+              window.__LOADED_STYLESHEETS__.add(href);
+            }
+          }
+        }
+        
+        // Record existing stylesheets immediately
+        recordExistingStylesheets();
+        
+        // Set up a MutationObserver to detect and record any new stylesheets
+        if (typeof MutationObserver !== 'undefined') {
+          var observer = new MutationObserver(function(mutations) {
+            var needsUpdate = false;
+            
+            mutations.forEach(function(mutation) {
+              if (mutation.type === 'childList') {
+                mutation.addedNodes.forEach(function(node) {
+                  if (node.nodeName === 'LINK' && 
+                      node.getAttribute('rel') === 'stylesheet') {
+                    var href = node.getAttribute('href');
+                    if (href) {
+                      window.__LOADED_STYLESHEETS__.add(href);
+                      needsUpdate = true;
+                    }
+                  }
+                });
+              }
+            });
+            
+            if (needsUpdate) {
+              recordExistingStylesheets();
+            }
+          });
+          
+          observer.observe(document.head, { 
+            childList: true, 
+            subtree: true 
+          });
+        }
         
         // Load all stylesheets immediately
         var loaded = 0;
