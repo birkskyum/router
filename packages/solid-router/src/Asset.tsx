@@ -1,4 +1,4 @@
-import { Meta, Style, Title } from '@solidjs/meta'
+import { Link, Meta, Style, Title } from '@solidjs/meta'
 import type { RouterManagedTag } from '@tanstack/router-core'
 
 export function Asset({ tag, attrs, children }: RouterManagedTag): any {
@@ -8,7 +8,7 @@ export function Asset({ tag, attrs, children }: RouterManagedTag): any {
     case 'meta':
       return <Meta {...attrs} />
     case 'link':
-      return <link {...attrs} />
+      return <Link {...attrs} />
     case 'style':
       return <Style {...attrs} innerHTML={children} />
     case 'script':

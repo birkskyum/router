@@ -366,5 +366,5 @@ export type {
 export { ScriptOnce } from './ScriptOnce'
 
 export { Asset } from './Asset'
-export { HeadContent, useTags } from './HeadContent'
+export { HeadContent, useTags, getTagsFromState } from './HeadContent'
 export { Scripts } from './Scripts'
